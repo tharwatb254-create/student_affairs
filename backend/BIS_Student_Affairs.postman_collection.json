@@ -1,167 +1,149 @@
 {
   "info": {
-    "name": "BIS Student Affairs API",
-    "description": "Collection for testing the BIS Student Affairs backend API running on http://localhost:3000",
-    "_postman_id": "bis-student-affairs-2026",
+    "name": "BIS Student Affairs API (Complete CRUD & Secure JWT)",
+    "description": "Premium Postman Collection for testing the complete CRUD operations, input validations, query filters, and JWT Authorization flow for the BIS Student Affairs Backend System.",
+    "_postman_id": "bis-student-affairs-v2-2026",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
     {
       "key": "BASE_URL",
-      "value": "http://localhost:3000/api",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "TOKEN",
+      "value": "",
       "type": "string"
     }
   ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{TOKEN}}",
+        "type": "string"
+      }
+    ]
+  },
   "item": [
     {
-      "name": "🔐 Auth",
+      "name": "🔐 1. Auth Flow",
       "item": [
         {
           "name": "Login - Admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.token) {",
+                  "    pm.collectionVariables.set(\"TOKEN\", jsonData.token);",
+                  "    console.log(\"Admin Token successfully captured: \" + jsonData.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": { "raw": "{{BASE_URL}}/login", "host": ["{{BASE_URL}}"], "path": ["login"] },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/login",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
             }
           }
         },
         {
           "name": "Login - Student",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.token) {",
+                  "    pm.collectionVariables.set(\"TOKEN\", jsonData.token);",
+                  "    console.log(\"Student Token successfully captured: \" + jsonData.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": { "raw": "{{BASE_URL}}/login", "host": ["{{BASE_URL}}"], "path": ["login"] },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"username\": \"student123\",\n  \"password\": \"mypassword\"\n}"
+              "raw": "{\n  \"username\": \"20230145\",\n  \"password\": \"student123\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/login",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
             }
           }
         },
         {
           "name": "Register - New Student",
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": { "raw": "{{BASE_URL}}/register", "host": ["{{BASE_URL}}"], "path": ["register"] },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"username\": \"student123\",\n  \"password\": \"mypassword\",\n  \"name\": \"محمد أحمد\",\n  \"role\": \"student\",\n  \"level\": \"الفرقة الثالثة\",\n  \"group\": \"جروب 1\"\n}"
-            }
-          }
-        },
-        {
-          "name": "Register - New Admin",
-          "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": { "raw": "{{BASE_URL}}/register", "host": ["{{BASE_URL}}"], "path": ["register"] },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"username\": \"admin2\",\n  \"password\": \"admin999\",\n  \"name\": \"مدير الكلية\",\n  \"role\": \"admin\"\n}"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "🎓 Student Data",
-      "item": [
-        {
-          "name": "Get All Students",
-          "request": {
-            "method": "GET",
-            "url": { "raw": "{{BASE_URL}}/students", "host": ["{{BASE_URL}}"], "path": ["students"] }
-          }
-        },
-        {
-          "name": "Get Profile",
-          "request": {
-            "method": "GET",
+              "raw": "{\n  \"username\": \"20230150\",\n  \"password\": \"student123\",\n  \"name\": \"كريم مصطفى\",\n  \"role\": \"student\",\n  \"level\": \"الفرقة الثالثة\",\n  \"group\": \"جروب 2\"\n}"
+            },
             "url": {
-              "raw": "{{BASE_URL}}/profile?studentId=admin",
-              "host": ["{{BASE_URL}}"],
-              "path": ["profile"],
-              "query": [{ "key": "studentId", "value": "admin" }]
-            }
-          }
-        },
-        {
-          "name": "Get Grades",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "{{BASE_URL}}/grades?studentId=admin",
-              "host": ["{{BASE_URL}}"],
-              "path": ["grades"],
-              "query": [{ "key": "studentId", "value": "admin" }]
-            }
-          }
-        },
-        {
-          "name": "Get Attendance",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "{{BASE_URL}}/attendance?studentId=student123",
-              "host": ["{{BASE_URL}}"],
-              "path": ["attendance"],
-              "query": [{ "key": "studentId", "value": "student123" }]
-            }
-          }
-        },
-        {
-          "name": "Get My Requests",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "{{BASE_URL}}/requests?studentId=admin",
-              "host": ["{{BASE_URL}}"],
-              "path": ["requests"],
-              "query": [{ "key": "studentId", "value": "admin" }]
-            }
-          }
-        },
-        {
-          "name": "Submit a Request",
-          "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": { "raw": "{{BASE_URL}}/requests", "host": ["{{BASE_URL}}"], "path": ["requests"] },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"title\": \"إفادة قيد\",\n  \"reason\": \"مطلوبة للجهة العسكرية\",\n  \"studentId\": \"student123\"\n}"
-            }
-          }
-        },
-        {
-          "name": "Get Schedule (by Level & Group)",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "{{BASE_URL}}/schedule?level=الفرقة الثالثة&group=جروب 1",
-              "host": ["{{BASE_URL}}"],
-              "path": ["schedule"],
-              "query": [
-                { "key": "level", "value": "الفرقة الثالثة" },
-                { "key": "group", "value": "جروب 1" }
-              ]
-            }
-          }
-        },
-        {
-          "name": "Get Announcements (by Level & Group)",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "{{BASE_URL}}/announcements?level=الفرقة الثالثة&group=جروب 1",
-              "host": ["{{BASE_URL}}"],
-              "path": ["announcements"],
-              "query": [
-                { "key": "level", "value": "الفرقة الثالثة" },
-                { "key": "group", "value": "جروب 1" }
+              "raw": "{{BASE_URL}}/api/register",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "register"
               ]
             }
           }
@@ -169,113 +151,647 @@
       ]
     },
     {
-      "name": "🛠️ Admin Tools",
+      "name": "🎓 2. Students CRUD",
       "item": [
         {
-          "name": "Get All Requests (Admin)",
+          "name": "GET - All Students (Query Filters)",
           "request": {
             "method": "GET",
-            "url": { "raw": "{{BASE_URL}}/admin/requests", "host": ["{{BASE_URL}}"], "path": ["admin", "requests"] }
+            "url": {
+              "raw": "{{BASE_URL}}/api/students?level=الفرقة الثالثة&name=أحمد",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "students"
+              ],
+              "query": [
+                {
+                  "key": "level",
+                  "value": "الفرقة الثالثة",
+                  "description": "Filter by level"
+                },
+                {
+                  "key": "name",
+                  "value": "أحمد",
+                  "description": "Filter by student name (regex)"
+                },
+                {
+                  "key": "group",
+                  "value": "جروب 1",
+                  "disabled": true,
+                  "description": "Filter by group"
+                }
+              ]
+            }
           }
         },
         {
-          "name": "Update Request Status",
+          "name": "GET - Profile by Query",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{BASE_URL}}/api/profile?studentId=20230145",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "profile"
+              ],
+              "query": [
+                {
+                  "key": "studentId",
+                  "value": "20230145"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET - Single Profile by Path Param",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{BASE_URL}}/api/students/20230145",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "students",
+                "20230145"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST - Admin Create Student",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"20230199\",\n  \"password\": \"student123\",\n  \"name\": \"عبدالرحمن يوسف\",\n  \"level\": \"الفرقة الثانية\",\n  \"group\": \"جروب 1\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/admin/students",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "students"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT - Update Student details",
           "request": {
             "method": "PUT",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": {
-              "raw": "{{BASE_URL}}/admin/requests/1",
-              "host": ["{{BASE_URL}}"],
-              "path": ["admin", "requests", "1"]
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"أحمد محمود علي\",\n  \"level\": \"الفرقة الرابعة\",\n  \"group\": \"جروب 2\"\n}"
             },
+            "url": {
+              "raw": "{{BASE_URL}}/api/students/20230145",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "students",
+                "20230145"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE - Delete Student (Cascade)",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{BASE_URL}}/api/students/20230199",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "students",
+                "20230199"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📋 3. Requests CRUD",
+      "item": [
+        {
+          "name": "POST - Submit Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"طلب إفادة قيد\",\n  \"reason\": \"مطلوب لتقديمه لنادي هيئة تدريس الجامعة\",\n  \"studentId\": \"20230145\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/requests",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "requests"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET - Student Requests (Filtered)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{BASE_URL}}/api/requests?studentId=20230145",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "requests"
+              ],
+              "query": [
+                {
+                  "key": "studentId",
+                  "value": "20230145"
+                },
+                {
+                  "key": "status",
+                  "value": "قيد المراجعة",
+                  "disabled": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET - Single Request Details",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{BASE_URL}}/api/requests/REPLACE_WITH_REQUEST_MONGO_ID",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "requests",
+                "REPLACE_WITH_REQUEST_MONGO_ID"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET - Admin List All Requests",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{BASE_URL}}/api/admin/requests",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "requests"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT - Update Request Status / Details",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"status\": \"تمت الموافقة\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/requests/REPLACE_WITH_REQUEST_MONGO_ID",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "requests",
+                "REPLACE_WITH_REQUEST_MONGO_ID"
+              ]
             }
           }
         },
         {
-          "name": "Add Schedule Entry",
+          "name": "DELETE - Delete Request",
           "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": { "raw": "{{BASE_URL}}/admin/schedule", "host": ["{{BASE_URL}}"], "path": ["admin", "schedule"] },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"level\": \"الفرقة الثالثة\",\n  \"group\": \"جروب 1\",\n  \"day\": \"الأربعاء\",\n  \"time\": \"10:00 ص - 12:00 م\",\n  \"subject\": \"برمجة متقدمة\",\n  \"hall\": \"معمل 5\"\n}"
+            "method": "DELETE",
+            "url": {
+              "raw": "{{BASE_URL}}/api/requests/REPLACE_WITH_REQUEST_MONGO_ID",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "requests",
+                "REPLACE_WITH_REQUEST_MONGO_ID"
+              ]
             }
           }
-        },
+        }
+      ]
+    },
+    {
+      "name": "📢 4. Announcements CRUD",
+      "item": [
         {
-          "name": "Add Announcement",
+          "name": "GET - Target Announcements (Filtration)",
           "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": { "raw": "{{BASE_URL}}/admin/announcements", "host": ["{{BASE_URL}}"], "path": ["admin", "announcements"] },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"level\": \"الفرقة الثالثة\",\n  \"group\": \"جروب 1\",\n  \"message\": \"اجتماع طلاب الفرقة الثالثة الأحد القادم الساعة 10 صباحاً\"\n}"
-            }
-          }
-        },
-        {
-          "name": "Add Attendance (Single Student)",
-          "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": { "raw": "{{BASE_URL}}/admin/attendance", "host": ["{{BASE_URL}}"], "path": ["admin", "attendance"] },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"studentId\": \"student123\",\n  \"subject\": \"نظم التشغيل\",\n  \"absences\": 3,\n  \"totalLectures\": 12\n}"
-            }
-          }
-        },
-        {
-          "name": "Set Grades for Student",
-          "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": { "raw": "{{BASE_URL}}/admin/grades", "host": ["{{BASE_URL}}"], "path": ["admin", "grades"] },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"studentId\": \"student123\",\n  \"cgpa\": \"3.20\",\n  \"semesterGpa\": \"3.50\",\n  \"semester\": \"الفصل الدراسي الأول - 2025/2026\",\n  \"courses\": [\n    { \"subject\": \"نظم التشغيل\", \"grade\": \"A\", \"marks\": \"92\" },\n    { \"subject\": \"قواعد البيانات\", \"grade\": \"B+\", \"marks\": \"85\" },\n    { \"subject\": \"هيكلة البيانات\", \"grade\": \"A-\", \"marks\": \"88\" }\n  ]\n}"
-            }
-          }
-        },
-        {
-          "name": "Upload Attendance CSV",
-          "request": {
-            "method": "POST",
-            "url": { "raw": "{{BASE_URL}}/admin/upload-attendance", "host": ["{{BASE_URL}}"], "path": ["admin", "upload-attendance"] },
-            "body": {
-              "mode": "formdata",
-              "formdata": [
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{BASE_URL}}/api/announcements?level=الفرقة الثالثة&group=جروب 1",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "announcements"
+              ],
+              "query": [
                 {
-                  "key": "file",
-                  "type": "file",
-                  "src": "",
-                  "description": "CSV file with columns: studentId, subject, absences, totalLectures"
+                  "key": "level",
+                  "value": "الفرقة الثالثة"
+                },
+                {
+                  "key": "group",
+                  "value": "جروب 1"
                 }
               ]
             }
           }
         },
         {
-          "name": "Upload Schedule File (Image/PDF)",
+          "name": "GET - Single Announcement by ID",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{BASE_URL}}/api/announcements/REPLACE_WITH_ANNOUNCEMENT_MONGO_ID",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "announcements",
+                "REPLACE_WITH_ANNOUNCEMENT_MONGO_ID"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST - Admin Add Announcement",
           "request": {
             "method": "POST",
-            "url": { "raw": "{{BASE_URL}}/admin/upload-schedule", "host": ["{{BASE_URL}}"], "path": ["admin", "upload-schedule"] },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"level\": \"الفرقة الثالثة\",\n  \"group\": \"جروب 1\",\n  \"message\": \"تنبيه هام: تم نقل محاضرة الغد إلى المدرج الرئيسي ب الكلية\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/admin/announcements",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "announcements"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT - Admin Update Announcement",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"تعديل تنبيه: تم نقل محاضرة الغد إلى مدرج 4 الساعة 10 ص\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/admin/announcements/REPLACE_WITH_ANNOUNCEMENT_MONGO_ID",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "announcements",
+                "REPLACE_WITH_ANNOUNCEMENT_MONGO_ID"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE - Admin Delete Announcement",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{BASE_URL}}/api/admin/announcements/REPLACE_WITH_ANNOUNCEMENT_MONGO_ID",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "announcements",
+                "REPLACE_WITH_ANNOUNCEMENT_MONGO_ID"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📊 5. Grades & Attendance (Core)",
+      "item": [
+        {
+          "name": "GET - Student Grades",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{BASE_URL}}/api/grades?studentId=20230145",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "grades"
+              ],
+              "query": [
+                {
+                  "key": "studentId",
+                  "value": "20230145"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET - Student Attendance",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{BASE_URL}}/api/attendance?studentId=20230145",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "attendance"
+              ],
+              "query": [
+                {
+                  "key": "studentId",
+                  "value": "20230145"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST - Admin Set Student Grades",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentId\": \"20230145\",\n  \"cgpa\": \"3.60\",\n  \"semesterGpa\": \"3.80\",\n  \"semester\": \"الفصل الدراسي الأول - 2025/2026\",\n  \"courses\": [\n    { \"subject\": \"نظم التشغيل\", \"grade\": \"A\", \"marks\": \"93\" },\n    { \"subject\": \"قواعد البيانات\", \"grade\": \"A\", \"marks\": \"96\" }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/admin/grades",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "grades"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST - Admin Set Attendance Entry",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentId\": \"20230145\",\n  \"subject\": \"نظم التشغيل\",\n  \"absences\": 1,\n  \"totalLectures\": 10\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/admin/attendance",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "attendance"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST - Admin Upload Attendance CSV",
+          "request": {
+            "method": "POST",
             "body": {
               "mode": "formdata",
               "formdata": [
-                { "key": "level", "value": "الفرقة الثالثة", "type": "text" },
-                { "key": "group", "value": "جروب 1", "type": "text" },
                 {
                   "key": "file",
                   "type": "file",
                   "src": "",
-                  "description": "Image (jpg/png) or PDF file"
+                  "description": "CSV File containing columns: studentId, subject, absences, totalLectures"
                 }
+              ]
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/admin/upload-attendance",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "upload-attendance"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📅 6. Schedules",
+      "item": [
+        {
+          "name": "GET - Target Schedule (Filtration)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{BASE_URL}}/api/schedule?level=الفرقة الثالثة&group=جروب 1",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "schedule"
+              ],
+              "query": [
+                {
+                  "key": "level",
+                  "value": "الفرقة الثالثة"
+                },
+                {
+                  "key": "group",
+                  "value": "جروب 1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST - Admin Add Schedule Entry",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"level\": \"الفرقة الثالثة\",\n  \"group\": \"جروب 1\",\n  \"day\": \"الإثنين\",\n  \"time\": \"11:00 ص - 01:00 م\",\n  \"subject\": \"هندسة برمجيات\",\n  \"hall\": \"مدرج ج\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/admin/schedule",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "schedule"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST - Admin Upload Schedule File (Image/PDF)",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "level",
+                  "value": "الفرقة الثالثة",
+                  "type": "text"
+                },
+                {
+                  "key": "group",
+                  "value": "جروب 1",
+                  "type": "text"
+                },
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "",
+                  "description": "Image/PDF file containing schedule"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/admin/upload-schedule",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "upload-schedule"
               ]
             }
           }

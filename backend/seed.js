@@ -1,6 +1,7 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const connectDB = require('./config/db');
+const bcrypt = require('bcryptjs');
 
 // Import Models
 const User = require('./models/User');
@@ -25,17 +26,21 @@ const seedData = async () => {
 
     console.log('Seeding new data...');
 
+    // Encrypt/Hash default passwords
+    const adminPasswordHashed = await bcrypt.hash('admin123', 10);
+    const studentPasswordHashed = await bcrypt.hash('student123', 10);
+
     // 2. Seed Users (Admin & Students)
     const admin = await User.create({
       username: 'admin',
-      password: 'admin123',
+      password: adminPasswordHashed,
       name: 'مدير النظام',
       role: 'admin'
     });
 
     const student1 = await User.create({
       username: '20230145',
-      password: 'student123',
+      password: studentPasswordHashed,
       name: 'أحمد محمود',
       role: 'student',
       level: 'الفرقة الثالثة',
@@ -44,7 +49,7 @@ const seedData = async () => {
 
     const student2 = await User.create({
       username: '20230146',
-      password: 'student123',
+      password: studentPasswordHashed,
       name: 'محمد علي',
       role: 'student',
       level: 'الفرقة الثانية',
@@ -53,7 +58,7 @@ const seedData = async () => {
 
     const student3 = await User.create({
       username: '20230147',
-      password: 'student123',
+      password: studentPasswordHashed,
       name: 'سارة أحمد',
       role: 'student',
       level: 'الفرقة الأولى',

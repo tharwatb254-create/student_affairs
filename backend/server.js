@@ -6,6 +6,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 
 const connectDB = require('./config/db');
+const bcrypt = require('bcryptjs');
 
 // Import User Model for seeding
 const User = require('./models/User');
@@ -57,9 +58,10 @@ const startServer = async () => {
     // Auto-seed default admin if not present
     const adminExists = await User.findOne({ username: 'admin' });
     if (!adminExists) {
+      const hashedAdminPassword = await bcrypt.hash('admin123', 10);
       await User.create({
         username: 'admin',
-        password: 'admin123',
+        password: hashedAdminPassword,
         name: 'مدير النظام',
         role: 'admin'
       });
