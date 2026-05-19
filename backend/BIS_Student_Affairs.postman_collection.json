@@ -1,0 +1,286 @@
+{
+  "info": {
+    "name": "BIS Student Affairs API",
+    "description": "Collection for testing the BIS Student Affairs backend API running on http://localhost:3000",
+    "_postman_id": "bis-student-affairs-2026",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "http://localhost:3000/api",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "🔐 Auth",
+      "item": [
+        {
+          "name": "Login - Admin",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{BASE_URL}}/login", "host": ["{{BASE_URL}}"], "path": ["login"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login - Student",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{BASE_URL}}/login", "host": ["{{BASE_URL}}"], "path": ["login"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"student123\",\n  \"password\": \"mypassword\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Register - New Student",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{BASE_URL}}/register", "host": ["{{BASE_URL}}"], "path": ["register"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"student123\",\n  \"password\": \"mypassword\",\n  \"name\": \"محمد أحمد\",\n  \"role\": \"student\",\n  \"level\": \"الفرقة الثالثة\",\n  \"group\": \"جروب 1\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Register - New Admin",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{BASE_URL}}/register", "host": ["{{BASE_URL}}"], "path": ["register"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin2\",\n  \"password\": \"admin999\",\n  \"name\": \"مدير الكلية\",\n  \"role\": \"admin\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🎓 Student Data",
+      "item": [
+        {
+          "name": "Get All Students",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{BASE_URL}}/students", "host": ["{{BASE_URL}}"], "path": ["students"] }
+          }
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{BASE_URL}}/profile?studentId=admin",
+              "host": ["{{BASE_URL}}"],
+              "path": ["profile"],
+              "query": [{ "key": "studentId", "value": "admin" }]
+            }
+          }
+        },
+        {
+          "name": "Get Grades",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{BASE_URL}}/grades?studentId=admin",
+              "host": ["{{BASE_URL}}"],
+              "path": ["grades"],
+              "query": [{ "key": "studentId", "value": "admin" }]
+            }
+          }
+        },
+        {
+          "name": "Get Attendance",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{BASE_URL}}/attendance?studentId=student123",
+              "host": ["{{BASE_URL}}"],
+              "path": ["attendance"],
+              "query": [{ "key": "studentId", "value": "student123" }]
+            }
+          }
+        },
+        {
+          "name": "Get My Requests",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{BASE_URL}}/requests?studentId=admin",
+              "host": ["{{BASE_URL}}"],
+              "path": ["requests"],
+              "query": [{ "key": "studentId", "value": "admin" }]
+            }
+          }
+        },
+        {
+          "name": "Submit a Request",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{BASE_URL}}/requests", "host": ["{{BASE_URL}}"], "path": ["requests"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"إفادة قيد\",\n  \"reason\": \"مطلوبة للجهة العسكرية\",\n  \"studentId\": \"student123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Schedule (by Level & Group)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{BASE_URL}}/schedule?level=الفرقة الثالثة&group=جروب 1",
+              "host": ["{{BASE_URL}}"],
+              "path": ["schedule"],
+              "query": [
+                { "key": "level", "value": "الفرقة الثالثة" },
+                { "key": "group", "value": "جروب 1" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Announcements (by Level & Group)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{BASE_URL}}/announcements?level=الفرقة الثالثة&group=جروب 1",
+              "host": ["{{BASE_URL}}"],
+              "path": ["announcements"],
+              "query": [
+                { "key": "level", "value": "الفرقة الثالثة" },
+                { "key": "group", "value": "جروب 1" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🛠️ Admin Tools",
+      "item": [
+        {
+          "name": "Get All Requests (Admin)",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{BASE_URL}}/admin/requests", "host": ["{{BASE_URL}}"], "path": ["admin", "requests"] }
+          }
+        },
+        {
+          "name": "Update Request Status",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{BASE_URL}}/admin/requests/1",
+              "host": ["{{BASE_URL}}"],
+              "path": ["admin", "requests", "1"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"تمت الموافقة\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Add Schedule Entry",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{BASE_URL}}/admin/schedule", "host": ["{{BASE_URL}}"], "path": ["admin", "schedule"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"level\": \"الفرقة الثالثة\",\n  \"group\": \"جروب 1\",\n  \"day\": \"الأربعاء\",\n  \"time\": \"10:00 ص - 12:00 م\",\n  \"subject\": \"برمجة متقدمة\",\n  \"hall\": \"معمل 5\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Add Announcement",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{BASE_URL}}/admin/announcements", "host": ["{{BASE_URL}}"], "path": ["admin", "announcements"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"level\": \"الفرقة الثالثة\",\n  \"group\": \"جروب 1\",\n  \"message\": \"اجتماع طلاب الفرقة الثالثة الأحد القادم الساعة 10 صباحاً\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Add Attendance (Single Student)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{BASE_URL}}/admin/attendance", "host": ["{{BASE_URL}}"], "path": ["admin", "attendance"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentId\": \"student123\",\n  \"subject\": \"نظم التشغيل\",\n  \"absences\": 3,\n  \"totalLectures\": 12\n}"
+            }
+          }
+        },
+        {
+          "name": "Set Grades for Student",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{BASE_URL}}/admin/grades", "host": ["{{BASE_URL}}"], "path": ["admin", "grades"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentId\": \"student123\",\n  \"cgpa\": \"3.20\",\n  \"semesterGpa\": \"3.50\",\n  \"semester\": \"الفصل الدراسي الأول - 2025/2026\",\n  \"courses\": [\n    { \"subject\": \"نظم التشغيل\", \"grade\": \"A\", \"marks\": \"92\" },\n    { \"subject\": \"قواعد البيانات\", \"grade\": \"B+\", \"marks\": \"85\" },\n    { \"subject\": \"هيكلة البيانات\", \"grade\": \"A-\", \"marks\": \"88\" }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "Upload Attendance CSV",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{BASE_URL}}/admin/upload-attendance", "host": ["{{BASE_URL}}"], "path": ["admin", "upload-attendance"] },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "",
+                  "description": "CSV file with columns: studentId, subject, absences, totalLectures"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Upload Schedule File (Image/PDF)",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{BASE_URL}}/admin/upload-schedule", "host": ["{{BASE_URL}}"], "path": ["admin", "upload-schedule"] },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "level", "value": "الفرقة الثالثة", "type": "text" },
+                { "key": "group", "value": "جروب 1", "type": "text" },
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "",
+                  "description": "Image (jpg/png) or PDF file"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

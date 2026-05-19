@@ -1,0 +1,29 @@
+# Dependency directories
+node_modules/
+backend/node_modules/
+student_affairs/.dart_tool/
+student_affairs/.flutter-plugins-dependencies
+student_affairs/.pub-cache/
+student_affairs/.pub/
+
+# Environments and Credentials
+.env
+backend/.env
+
+# Large installation files
+node-v24.15.0-x64.msi
+
+# Build folders
+student_affairs/build/
+student_affairs/android/app/debug/
+student_affairs/android/app/profile/
+student_affairs/android/app/release/
+
+# IDE files
+student_affairs/.idea/
+student_affairs/.metadata
+student_affairs/student_affairs.iml
+
+# Miscellaneous/OS
+*.log
+.DS_Store
